@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: A9A9A9;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WinDialogController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: A9A9A9;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bossPuzzle.WinDialogController">
    <children>
       <Label alignment="CENTER" layoutX="65.0" layoutY="14.0" minHeight="20.0" minWidth="220.0" text="Вы победили, хотите сыграть снова?" textAlignment="CENTER" textFill="WHITE">
          <font>

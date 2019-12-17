@@ -1,3 +1,5 @@
+package bossPuzzle;
+
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -6,7 +8,7 @@ import javafx.stage.Stage;
 public class WinDialogController {
     private Stage parent = new Stage();
 
-    public void newGame(ActionEvent event) throws Exception {
+    public void newGame(ActionEvent event) {
         Button value = (Button) event.getSource();
         Stage stage = (Stage) value.getScene().getWindow();
         stage.close();
