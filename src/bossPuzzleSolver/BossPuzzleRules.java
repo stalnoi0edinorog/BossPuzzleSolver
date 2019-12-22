@@ -89,7 +89,7 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
                             Math.abs(b - coordinatesCorrect(state.getField()[a * 4 + b]).getValue());
                 }
                     int conflict;
-                    if (( conflict = linearConflict(state, a, b)) > 0) {
+                    if ((conflict = linearConflict(state, a, b)) > 0) {
                         h += conflict;
                     }
                 }
@@ -99,7 +99,6 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
 
     private int linearConflict(BossPuzzleState state, int a, int b) {
         int res = 0;
-        int c = 0;
         Pair<Integer, Integer> coordinatesC = coordinatesCorrect(state.getField()[a * 4 + b]);
 
         if (a == coordinatesC.getKey()) {
@@ -120,6 +119,21 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
             }
         }
         return res;
+    }
+
+    private int cornerTiles(BossPuzzleState state) { // ----> думать
+        if (state.getField()[1] == 2 && state.getField()[4] == 5 && state.getField()[0] != 1) {
+            return 2;
+        }
+
+        if (state.getField()[2] == 3 && state.getField()[7] == 8 && state.getField()[3] != 4) {
+            return 2;
+        }
+
+        if (state.getField()[8] == 9 && state.getField()[13] == 14 && state.getField()[12] != 13) {
+            return 2;
+        }
+        return 0;
     }
 
     private Pair<Integer, Integer> coordinatesCorrect(int value) {

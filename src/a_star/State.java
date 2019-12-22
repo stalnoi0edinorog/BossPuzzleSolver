@@ -41,9 +41,4 @@ public abstract class State {
     public void setParent(State parent) {
         this.parent = parent;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
 }

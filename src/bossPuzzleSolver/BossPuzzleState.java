@@ -26,6 +26,7 @@ public class BossPuzzleState extends State {
         if (field == null)
             return "" + null;
         StringBuilder builder = new StringBuilder();
+        builder.append("\n");
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 builder.append(field[j + i * 4]);
@@ -35,17 +36,5 @@ public class BossPuzzleState extends State {
         }
         builder.append("\n");
         return builder.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof BossPuzzleState))
-            return false;
-        return hash == o.hashCode();
-    }
-
-    @Override
-    public int hashCode() {
-        return hash;
     }
 }
