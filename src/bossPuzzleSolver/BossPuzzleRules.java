@@ -82,29 +82,40 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
     @Override
     public int getH(BossPuzzleState state) {
         int h = 0;
+        int m = 0;
+        int l = 0;
         for (int a = 0; a < 4; a++) {
             for (int b = 0; b < 4; b++) {
                 if (state.getField()[a * 4 + b] != terminateState[a * 4 + b]) {
+                   /* m += Math.abs(a - coordinatesCorrect(state.getField()[a * 4 + b]).getKey()) +
+                            Math.abs(b - coordinatesCorrect(state.getField()[a * 4 + b]).getValue());*/
                     h += Math.abs(a - coordinatesCorrect(state.getField()[a * 4 + b]).getKey()) +
                             Math.abs(b - coordinatesCorrect(state.getField()[a * 4 + b]).getValue());
                 }
                     int conflict;
                     if ((conflict = linearConflict(state, a, b)) > 0) {
+                        //l += conflict;
                         h += conflict;
                     }
                 }
             }
+        //System.out.println("Manh: " + m + ", Linear: " + l);
         return h;
     }
 
     private int linearConflict(BossPuzzleState state, int a, int b) {
         int res = 0;
+        if (state.getField()[a *4 + b] == 0)
+            return res;
         Pair<Integer, Integer> coordinatesC = coordinatesCorrect(state.getField()[a * 4 + b]);
 
         if (a == coordinatesC.getKey()) {
             for (int i = b + 1; i < 4; i++) {
                 if (a == coordinatesCorrect(state.getField()[a * 4 + i]).getKey()) {
                     if (state.getField()[a * 4 + b] > state.getField()[a * 4 + i]) {
+                        if (state.getField()[a*4 + i] == 0)
+                            continue;
+                       // System.out.println(state.getField()[a * 4 + b] + " " + state.getField()[a * 4 + i]);
                         res += 2;
                     }
                 }
@@ -113,6 +124,8 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
             for (int i = a + 1; i < 4; i++) {
                 if (b == coordinatesCorrect(state.getField()[i * 4 + b]).getValue()) {
                     if (state.getField()[a * 4 + b] > state.getField()[i * 4 + b]) {
+                        if (state.getField()[i * 4 + b] == 0)
+                            continue;
                         res += 2;
                     }
                 }

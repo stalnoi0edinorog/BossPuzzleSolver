@@ -21,7 +21,7 @@ public class ClosedSet<TState extends State> {
         list.add(state);
     }
 
-    public State min() {
+    public TState min() {
         return Collections.min(list, comparator);
     }
 

@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 public class BossPuzzleState extends State {
     private int[] field;
-    private int hash;
 
     public BossPuzzleState(State parent) {
         super(parent);
@@ -18,7 +17,6 @@ public class BossPuzzleState extends State {
 
     public void setField(int[] field) {
         this.field = field;
-        hash = Arrays.hashCode(field);
     }
 
     @Override
@@ -36,5 +34,16 @@ public class BossPuzzleState extends State {
         }
         builder.append("\n");
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        for (int i = 0; i < field.length; i++) {
+            if (field[i] != ((BossPuzzleState) obj).getField()[i])
+                return false;
+        }
+        return true;
     }
 }

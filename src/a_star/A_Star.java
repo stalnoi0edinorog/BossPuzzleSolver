@@ -1,8 +1,6 @@
 package a_star;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class A_Star<TState extends State, TRules extends Rules<TState>> {
 
@@ -15,43 +13,84 @@ public class A_Star<TState extends State, TRules extends Rules<TState>> {
         this.rules = rules;
     }
 
+    class minFComparator implements Comparator<TState> {
+
+        @Override
+        public int compare(TState state1, TState state2) {
+            return state1.getF() - state2.getF();
+        }
+    }
     //поиск кратчайшего пути от начального состояния до терминального
     public Collection<State> search(TState startState) {
-        List<Integer> closed = new LinkedList<>();
-        List<TState> opened = new LinkedList<>();
+        Queue<TState> opened = new PriorityQueue<>(new minFComparator());
+        List<TState> closed = new LinkedList<>();
 
         opened.add(startState);
         startState.setG(0);
         startState.setH(rules.getH(startState));
 
-        while (!opened.isEmpty()) {
-            TState currentState = getStateWithMinF(opened);
+        while (opened.size() > 0) {
+            TState currentState = opened.poll();
+
             if (rules.isTerminate(currentState)) {
                 return completeSolution(currentState);
             }
 
-            opened.remove(currentState);
-            closed.add(currentState.hashCode());
+            if (closed.contains(currentState))
+                System.out.println("contain");
 
-            List<TState> nextStates = rules.getNeighbors(currentState);
-            for (TState state: nextStates) {
-                if (closed.contains((state.hashCode()))) {
+            closed.add(currentState);
+
+
+           // System.out.println("opened: " + opened.size());
+            System.out.println("closed: " + closed.size());
+            //System.out.println();
+
+            List<TState> neighbors = rules.getNeighbors(currentState);
+            //System.out.println("Current: " + currentState);
+            //System.out.println("************");
+            for (TState neighbor: neighbors) {
+
+                if (neighbor.equals(currentState.getParent()))
                     continue;
+
+                if (rules.isTerminate(neighbor)) {
+                    //System.out.println(closed);
+                    return completeSolution(currentState);
                 }
-                int g = currentState.getG() + rules.getDistance(currentState, state); //расстояние от начального до state
-                boolean isGBetter;
-                if (!opened.contains(state)) {
-                    state.setH(rules.getH(state));
-                    opened.add(state);
-                    isGBetter = true;
-                } else {
-                    isGBetter = g < state.getG();
+
+                //System.out.println(currentState.getG());
+                int g = currentState.getG() + 1; // путь от начальной вершины
+
+                int neighborG = 0;
+                for (TState state: closed) {
+                    if (state.equals(neighbor))
+                        neighborG = state.getG();
                 }
-                if (isGBetter) {
-                    state.setParent(currentState);
-                    state.setG(g);
+                if (g < neighborG)
+                    System.out.println(true);
+               // System.out.println(neighbor);
+                //System.out.println("g: " + g + ", NeigG: " + neighborG);
+               // if (closed.contains(neighbor) /*&& g >= neighborG /*|| neighbor.equals(currentState.getParent())*/) {
+                 //   continue;
+               // }
+
+                //System.out.println(neighbor);
+
+                if (!closed.contains(neighbor) /*|| g < neighborG*/) {
+                    //System.out.println(g < neighborG);
+                    neighbor.setParent(currentState);
+                    neighbor.setG(g);
+                    neighbor.setH(rules.getH(neighbor));
+                    if (!opened.contains(neighbor) && g <= 80) {
+                        opened.add(neighbor);
+                    }
                 }
+                //System.out.println(g);
             }
+
+           // System.out.println("************");
+           // System.out.println();
         }
         return null;
     }
