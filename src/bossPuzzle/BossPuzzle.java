@@ -1,6 +1,6 @@
 package bossPuzzle;
 
-import a_star.A_Star;
+import a_star.AStar;
 import a_star.State;
 import bossPuzzleSolver.BossPuzzleRules;
 import bossPuzzleSolver.BossPuzzleState;
@@ -15,8 +15,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import static javafx.geometry.Pos.CENTER;
 
@@ -93,24 +93,10 @@ public class BossPuzzle extends Application {
     }
 
     private void solveGame(ActionEvent event) {
-        BossPuzzleRules rules = new BossPuzzleRules(4, gameLogic.getWin());
+        /*BossPuzzleRules rules = new BossPuzzleRules(4, gameLogic.getWin());
         BossPuzzleState startState = new BossPuzzleState(null);
         startState.setField(gameLogic.numbers);
-        A_Star<BossPuzzleState, BossPuzzleRules> alg = new A_Star<>(rules);
-        //Collection<State> search = alg.search(startState);
-       // System.out.println(6);
-
-        BossPuzzleState test = new BossPuzzleState(null);
-        //test.setField(new int[]{ 1,2,3,4,5,6,7,8,9,14,0,15,13,12,10,11});
-       // test.setField(new int[]{ 1,2,3,4,5,6,7,8,9,10,11,12,0,13,14,15});
-        test.setField(new int[]{ 1, 4, 3, 2, 5, 6, 12, 8, 9, 10, 11, 7, 13, 14, 15, 0});
-        //System.out.println(Arrays.toString(test.getField()));
-        alg.search(test);
-
-        /*if (search == null) {
-            System.out.println("Solution not found");
-            return;
-        }*/
+        AStar<BossPuzzleState, BossPuzzleRules> alg = new AStar<>(rules);*/
     }
 
     private void newGame(ActionEvent event) {
@@ -122,13 +108,10 @@ public class BossPuzzle extends Application {
         Button button = (Button) event.getSource();
         String number = button.getText();
         boolean check = gameLogic.change(Integer.parseInt(number));
-
         if (check)
             counter++;
-
         if (gameLogic.isWin())
             win();
-
         repaintField();
     }
 

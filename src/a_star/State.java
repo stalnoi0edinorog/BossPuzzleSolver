@@ -2,6 +2,11 @@ package a_star;
 
 // Вершина графа решений
 
+import bossPuzzleSolver.BossPuzzleState;
+
+import java.util.Collection;
+import java.util.List;
+
 public abstract class State {
     private int g;
     private int h;
@@ -11,12 +16,10 @@ public abstract class State {
         this.parent = parent;
     }
 
-    //Возвращает вес состояния = расстояние от нач. до тек. + эвристическая оценка
     public int getF(){
         return g + h;
     }
 
-    //Расстояние от начального до текущего
     public int getG() {
         return g;
     }
@@ -25,7 +28,6 @@ public abstract class State {
         this.g = g;
     }
 
-    //Эвристическая оценка расстояния от текущего до термиального
     public int getH() {
         return h;
     }
@@ -37,9 +39,9 @@ public abstract class State {
     public State getParent() {
         return parent;
     }
-
     public void setParent(State parent) {
         this.parent = parent;
     }
 
+    public abstract List<State> completeSolution();
 }

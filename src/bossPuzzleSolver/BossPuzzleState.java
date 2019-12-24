@@ -1,8 +1,12 @@
 package bossPuzzleSolver;
 
 import a_star.State;
+import javafx.util.Pair;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BossPuzzleState extends State {
     private int[] field;
@@ -20,7 +24,7 @@ public class BossPuzzleState extends State {
     }
 
     @Override
-    public String toString() { //поправить
+    public String toString() {
         if (field == null)
             return "" + null;
         StringBuilder builder = new StringBuilder();
@@ -45,5 +49,18 @@ public class BossPuzzleState extends State {
                 return false;
         }
         return true;
+    }
+
+    @Override
+    public List<State> completeSolution() {
+        System.out.println("Victory in " + this.getG() + " moves");
+
+        LinkedList<State> path = new LinkedList<>();
+        State c = this;
+        while (c != null) {
+            path.addFirst(c);
+            c = c.getParent();
+        }
+        return path;
     }
 }

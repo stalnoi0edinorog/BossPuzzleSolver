@@ -24,7 +24,6 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
         this.terminateState = terminateState;
     }
 
-    //Список состояний, в к-е м/б осуществлён переход из указанного
     @Override
     public List<BossPuzzleState> getNeighbors(BossPuzzleState currentState) {
         List<BossPuzzleState> res = new ArrayList<>();
@@ -66,43 +65,24 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
         return newField;
     }
 
-    // расстояние от a до b
-    @Override
-    public int getDistance(BossPuzzleState a, BossPuzzleState b) {
-        State c = b;
-        int distance = 0;
-        while ((c != null) && (!c.equals(a))) {
-            c = c.getParent();
-            distance++;
-        }
-        return distance;
-    }
-
-    //эвристика
     @Override
     public int getH(BossPuzzleState state) {
         int h = 0;
-        int m = 0;
-        int l = 0;
         for (int a = 0; a < 4; a++) {
             for (int b = 0; b < 4; b++) {
                 if (state.getField()[a * 4 + b] != terminateState[a * 4 + b]) {
-                   /* m += Math.abs(a - coordinatesCorrect(state.getField()[a * 4 + b]).getKey()) +
-                            Math.abs(b - coordinatesCorrect(state.getField()[a * 4 + b]).getValue());*/
-                    h += Math.abs(a - coordinatesCorrect(state.getField()[a * 4 + b]).getKey()) +
-                            Math.abs(b - coordinatesCorrect(state.getField()[a * 4 + b]).getValue());
+                    h += manhattanDistance(state, a, b);
                 }
-                    int conflict;
-                    if ((conflict = linearConflict(state, a, b)) > 0) {
-                        //l += conflict;
-                        h += conflict;
-                    }
-                }
+                h += linearConflict(state, a, b);
             }
-        //System.out.println("Manh: " + m + ", Linear: " + l);
+        }
         return h;
     }
 
+    private int manhattanDistance(BossPuzzleState state, int a, int b) {
+        return Math.abs(a - coordinatesCorrect(state.getField()[a * 4 + b]).getKey()) +
+                Math.abs(b - coordinatesCorrect(state.getField()[a * 4 + b]).getValue());
+    }
     private int linearConflict(BossPuzzleState state, int a, int b) {
         int res = 0;
         if (state.getField()[a *4 + b] == 0)
@@ -113,9 +93,8 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
             for (int i = b + 1; i < 4; i++) {
                 if (a == coordinatesCorrect(state.getField()[a * 4 + i]).getKey()) {
                     if (state.getField()[a * 4 + b] > state.getField()[a * 4 + i]) {
-                        if (state.getField()[a*4 + i] == 0)
+                        if (state.getField()[a * 4 + i] == 0)
                             continue;
-                       // System.out.println(state.getField()[a * 4 + b] + " " + state.getField()[a * 4 + i]);
                         res += 2;
                     }
                 }
@@ -134,21 +113,6 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
         return res;
     }
 
-    private int cornerTiles(BossPuzzleState state) { // ----> думать
-        if (state.getField()[1] == 2 && state.getField()[4] == 5 && state.getField()[0] != 1) {
-            return 2;
-        }
-
-        if (state.getField()[2] == 3 && state.getField()[7] == 8 && state.getField()[3] != 4) {
-            return 2;
-        }
-
-        if (state.getField()[8] == 9 && state.getField()[13] == 14 && state.getField()[12] != 13) {
-            return 2;
-        }
-        return 0;
-    }
-
     private Pair<Integer, Integer> coordinatesCorrect(int value) {
         for (int a = 0; a < 4; a++) {
             for (int b = 0; b < 4; b++) {
@@ -157,6 +121,17 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
             }
         }
         return null;
+    }
+
+    public boolean isSolvable(int[] invariants) {
+        int counter = 0;
+        for (int j = 0; j < 14; j++) {
+            for (int i = j + 1; i < 15; i++) {
+                if (invariants[j] > invariants[i])
+                    counter++;
+            }
+        }
+        return counter % 2 == 0;
     }
 
     @Override
