@@ -41,17 +41,6 @@ public class BossPuzzleState extends State {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        for (int i = 0; i < field.length; i++) {
-            if (field[i] != ((BossPuzzleState) obj).getField()[i])
-                return false;
-        }
-        return true;
-    }
-
-    @Override
     public List<State> completeSolution() {
         System.out.println("Victory in " + this.getG() + " moves");
 
@@ -62,5 +51,18 @@ public class BossPuzzleState extends State {
             c = c.getParent();
         }
         return path;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj == this)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        for (int i = 0; i < field.length; i++) {
+            if (field[i] != ((BossPuzzleState) obj).getField()[i])
+                return false;
+        }
+        return true;
     }
 }

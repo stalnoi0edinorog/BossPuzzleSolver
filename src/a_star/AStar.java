@@ -43,7 +43,7 @@ public class AStar<TState extends State, TRules extends Rules<TState>> {
                 int currentG = currentState.getG() + 1;
                 if (rules.isTerminate(neighbor)) {
                     neighbor.setG(currentG);
-                    System.out.println(closed.size());
+                    System.out.println("closed.size: " + closed.size());
                     return neighbor.completeSolution();
                 }
                // System.out.println(neighbor);
@@ -58,7 +58,7 @@ public class AStar<TState extends State, TRules extends Rules<TState>> {
                     System.out.println("in closed: " + stateG);
                     System.out.println();
                 }*/
-                if (currentG < previousG || !closed.contains(neighbor)) { // !closed.contains(neighbor)
+                if (currentG < previousG || !closed.contains(neighbor)) {
                     neighbor.setParent(currentState);
                     neighbor.setG(currentG);
                     neighbor.setH(rules.getH(neighbor));

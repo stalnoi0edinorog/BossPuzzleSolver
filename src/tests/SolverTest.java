@@ -122,5 +122,4 @@ public class SolverTest {
         assertEquals(startState, res.get(0));
         assertEquals(terminate, res.get(res.size() - 1));
     }
-
 }
