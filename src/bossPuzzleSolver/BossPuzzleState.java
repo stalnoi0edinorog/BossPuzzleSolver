@@ -11,11 +11,12 @@ import java.util.List;
 public class BossPuzzleState extends State {
     private int[] field;
 
-    public BossPuzzleState(State parent) {
-        super(parent);
+    public BossPuzzleState(State parent, int fieldSide) {
+        super(parent, fieldSide);
+        //this.setParent(parent);
     }
 
-    public int[] getField() {
+    int[] getField() {
         return field;
     }
 
@@ -25,13 +26,14 @@ public class BossPuzzleState extends State {
 
     @Override
     public String toString() {
+        //System.out.println(fieldSide);
         if (field == null)
             return "" + null;
         StringBuilder builder = new StringBuilder();
         builder.append("\n");
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                builder.append(field[j + i * 4]);
+        for (int i = 0; i < this.getFieldSide(); i++) {
+            for (int j = 0; j < this.getFieldSide(); j++) {
+                builder.append(field[j + i * this.getFieldSide()]);
                 builder.append(" ");
             }
             builder.append("\n");
@@ -59,10 +61,11 @@ public class BossPuzzleState extends State {
             return true;
         if (obj == null || getClass() != obj.getClass())
             return false;
-        for (int i = 0; i < field.length; i++) {
-            if (field[i] != ((BossPuzzleState) obj).getField()[i])
-                return false;
-        }
-        return true;
+        return Arrays.equals(field, ((BossPuzzleState) obj).field);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(field);
     }
 }

@@ -35,34 +35,23 @@ public class AStar<TState extends State, TRules extends Rules<TState>> {
                 return currentState.completeSolution();
             }
             closed.add(currentState);
-            //System.out.println("closed: " + closed.size());
             List<TState> neighbors = rules.getNeighbors(currentState);
             for (TState neighbor: neighbors) {
                 if (neighbor.equals(currentState.getParent()))
                     continue;
                 int currentG = currentState.getG() + 1;
-                if (rules.isTerminate(neighbor)) {
-                    neighbor.setG(currentG);
-                    System.out.println("closed.size: " + closed.size());
-                    return neighbor.completeSolution();
-                }
-               // System.out.println(neighbor);
+
                 TState stateG = getState(closed, neighbor);
                 int previousG = 0; //если вершина уже была в opened, то её вес есть в closed
                 if (stateG != null) {
                     previousG = stateG.getG();
                 }
-                /*if (currentG < previousG) {
-                    System.out.println();
-                    System.out.println("neighbor: " + neighbor);
-                    System.out.println("in closed: " + stateG);
-                    System.out.println();
-                }*/
-                if (currentG < previousG || !closed.contains(neighbor)) {
+                if (currentG < previousG || stateG == null) {
                     neighbor.setParent(currentState);
                     neighbor.setG(currentG);
                     neighbor.setH(rules.getH(neighbor));
-                    if (!opened.contains(neighbor) && currentG  <= 80) {
+                    opened.remove(neighbor);
+                    if (currentG  <= 80) {
                         opened.add(neighbor);
                     }
                 }
