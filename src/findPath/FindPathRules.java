@@ -60,7 +60,22 @@ public class FindPathRules implements Rules<FindPathState> {
 
     @Override
     public int getH(FindPathState state) {
-        return Math.abs(destination - positionNeighbor);
+        int x = state.getPosition() % 10;
+        int y = state.getPosition() / 10;
+        int destinationX = destination % 10;
+        int destinationY = destination / 10;
+        int bonus = 0;
+
+        /*if ((y - 1) * 10 + x > -1 && (y + 1) * 10 + x < 100 && y * 10 + x + 1 < 100 && y * 10 + x - 1 > -1
+                && (state.getField()[y * 10 + x + 1] == -1 || state.getField()[y * 10 + x - 1] == -1 ||
+        state.getField()[(y + 1) * 10 + x ] == -1 || state.getField()[(y - 1) * 10 + x ] == -1)) {
+            bonus -= 20; //очеееень грубо
+        }
+        if (state.getParent() != null && state.isObstacles()) {
+            bonus += state.getParent().getH();
+        }*/
+
+        return Math.abs(destinationX - x) + Math.abs(destinationY - y) + bonus;
     }
 
     @Override

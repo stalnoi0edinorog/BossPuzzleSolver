@@ -76,6 +76,16 @@ public class BossPuzzleRules implements Rules<BossPuzzleState> {
         return newField;
     }
 
+    /*public int distanceSum(int[] arr, int n) {
+        Arrays.sort(arr);
+        int res = 0, sum = 0;
+        for (int i = 0; i < n; i++) {
+            res += (arr[i] * i - sum);
+            sum += arr[i];
+        }
+        return res;
+    }*/
+
     @Override
     public int getH(BossPuzzleState state) {
         int h = 0;

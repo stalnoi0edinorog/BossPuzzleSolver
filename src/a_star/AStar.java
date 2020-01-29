@@ -34,8 +34,11 @@ public class AStar<TState extends State, TRules extends Rules<TState>> {
             if (rules.isTerminate(currentState)) {
                 return currentState.completeSolution();
             }
+            System.out.println(currentState + " F: " + currentState.getF());
+            System.out.println();
             closed.add(currentState);
             List<TState> neighbors = rules.getNeighbors(currentState);
+            //System.out.println(neighbors);
             for (TState neighbor: neighbors) {
                 if (neighbor.equals(currentState.getParent()))
                     continue;
@@ -48,7 +51,7 @@ public class AStar<TState extends State, TRules extends Rules<TState>> {
                 }
                 if (currentG < previousG || stateG == null) {
                     neighbor.setParent(currentState);
-                    neighbor.setG(currentG);
+                    //neighbor.setG(currentG); // костыльная фигня
                     neighbor.setH(rules.getH(neighbor));
                     opened.remove(neighbor);
                     if (currentG  <= 80) {

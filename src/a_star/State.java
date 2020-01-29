@@ -20,11 +20,11 @@ public abstract class State {
         return g + h;
     }
 
-    protected int getG() {
+    public int getG() {
         return g;
     }
 
-    void setG(int g) {
+    public void setG(int g) {
         this.g = g;
     }
 

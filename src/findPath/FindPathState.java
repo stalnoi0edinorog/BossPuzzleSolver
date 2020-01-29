@@ -9,12 +9,15 @@ public class FindPathState extends State {
     private int[] field = new int[100];
     private int position;
     private int step;
+    private static boolean obstacles;
 
     public FindPathState(State parent, int fieldSide, int position) {
         super(parent, fieldSide);
         this.position = position;
         step = 1;
+        this.setG(0);
     }
+
 
     int[] getField() {
         return field;
@@ -33,7 +36,7 @@ public class FindPathState extends State {
         for (int i = 0; i < this.getFieldSide(); i++) {
             for (int j = 0; j < this.getFieldSide(); j++) {
                 builder.append(field[j + i * this.getFieldSide()]);
-                builder.append(" ");
+                builder.append("  ");
             }
             builder.append("\n");
         }
@@ -59,5 +62,13 @@ public class FindPathState extends State {
 
     int getStep() {
         return step;
+    }
+
+    public void setObstacles(boolean obstacles) {
+        this.obstacles = obstacles;
+    }
+
+    public boolean isObstacles() {
+        return obstacles;
     }
 }
