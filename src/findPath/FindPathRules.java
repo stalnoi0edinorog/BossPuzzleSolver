@@ -66,14 +66,14 @@ public class FindPathRules implements Rules<FindPathState> {
         int destinationY = destination / 10;
         int bonus = 0;
 
-        /*if ((y - 1) * 10 + x > -1 && (y + 1) * 10 + x < 100 && y * 10 + x + 1 < 100 && y * 10 + x - 1 > -1
+        if ((y - 1) * 10 + x > -1 && (y + 1) * 10 + x < 100 && y * 10 + x + 1 < 100 && y * 10 + x - 1 > -1
                 && (state.getField()[y * 10 + x + 1] == -1 || state.getField()[y * 10 + x - 1] == -1 ||
         state.getField()[(y + 1) * 10 + x ] == -1 || state.getField()[(y - 1) * 10 + x ] == -1)) {
             bonus -= 20; //очеееень грубо
         }
-        if (state.getParent() != null && state.isObstacles()) {
+        if (state.getParent() != null && FindPathState.obstacles) {
             bonus += state.getParent().getH();
-        }*/
+        }
 
         return Math.abs(destinationX - x) + Math.abs(destinationY - y) + bonus;
     }

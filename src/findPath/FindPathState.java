@@ -9,7 +9,7 @@ public class FindPathState extends State {
     private int[] field = new int[100];
     private int position;
     private int step;
-    private static boolean obstacles;
+    public static boolean obstacles;
 
     public FindPathState(State parent, int fieldSide, int position) {
         super(parent, fieldSide);
@@ -64,11 +64,4 @@ public class FindPathState extends State {
         return step;
     }
 
-    public void setObstacles(boolean obstacles) {
-        this.obstacles = obstacles;
-    }
-
-    public boolean isObstacles() {
-        return obstacles;
-    }
 }

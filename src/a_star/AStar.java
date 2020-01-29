@@ -34,8 +34,8 @@ public class AStar<TState extends State, TRules extends Rules<TState>> {
             if (rules.isTerminate(currentState)) {
                 return currentState.completeSolution();
             }
-            System.out.println(currentState + " F: " + currentState.getF());
-            System.out.println();
+            //System.out.println(currentState + " F: " + currentState.getF());
+            //System.out.println();
             closed.add(currentState);
             List<TState> neighbors = rules.getNeighbors(currentState);
             //System.out.println(neighbors);

@@ -354,12 +354,12 @@ class SolverTest {
 
         rules.setDestination(55);
         FindPathState start = new FindPathState(null,10, 90);
-        //List<State> res = alg.search(start);
-        //assertEquals(55, ((FindPathState) res.get(0)).getPosition());
-
-        /*rules.setDestination(9);
-        start = new FindPathState(null,10, 90);
         List<State> res = alg.search(start);
+        assertEquals(55, ((FindPathState) res.get(0)).getPosition());
+
+        rules.setDestination(9);
+        start = new FindPathState(null,10, 90);
+        res = alg.search(start);
         assertEquals(9, ((FindPathState) res.get(0)).getPosition());
 
         rules.setDestination(68);
@@ -376,11 +376,11 @@ class SolverTest {
         }
         start.setField(field);
         res = alg.search(start);
-        assertEquals(99, ((FindPathState) res.get(0)).getPosition());*/
+        assertEquals(99, ((FindPathState) res.get(0)).getPosition());
 
         rules.setDestination(92);
         start = new FindPathState(null, 10, 90);
-        int[] field = new int[100];
+        field = new int[100];
         field[90] = 1;
         int x = 1;
         int y = 9;
@@ -390,11 +390,50 @@ class SolverTest {
             y--;
         }
         start.setField(field);
-        System.out.println(start);
 
-        List<State> res = alg.search(start);
-        start.setObstacles(true);
-        //System.out.println(res.get(0));
+        FindPathState.obstacles = true;
+        res = alg.search(start);
         assertEquals(92, ((FindPathState) res.get(0)).getPosition()); // препятствия в эвристику, создаёт тупики
+
+        rules.setDestination(92);
+        start = new FindPathState(null, 10, 12);
+        field = new int[100];
+        field[12] = 1;
+        x = 1;
+        y = 9;
+        while (x < 9 && y > 1) {
+            field[y * 10 + x] = -1;
+            x++;
+            y--;
+        }
+        start.setField(field);
+        res = alg.search(start);
+        assertEquals(92, ((FindPathState) res.get(0)).getPosition());
+
+        rules.setDestination(99);
+        start = new FindPathState(null, 10, 44);
+        field = new int[100];
+        for (int i = 2; i < 6; i++) {
+            field[20 + i] = -1;
+            field[50 + i] = -1;
+        }
+        field[36] = -1;
+        field[46] = -1;
+        start.setField(field);
+        res = alg.search(start);
+        assertEquals(99, ((FindPathState) res.get(0)).getPosition());
+
+        rules.setDestination(99);
+        start = new FindPathState(null, 10, 0);
+        field = new int[100];
+        for (int i = 2; i < 6; i++) {
+            field[20 + i] = -1;
+            field[50 + i] = -1;
+        }
+        field[36] = -1;
+        field[46] = -1;
+        start.setField(field);
+        res = alg.search(start);
+        assertEquals(99, ((FindPathState) res.get(0)).getPosition());
     }
 }
