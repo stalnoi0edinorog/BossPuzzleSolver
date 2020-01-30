@@ -75,7 +75,15 @@ public class FindPathRules implements Rules<FindPathState> {
             bonus += state.getParent().getH();
         }
 
-        return Math.abs(destinationX - x) + Math.abs(destinationY - y) + bonus;
+        return manhattanDistance(state) + bonus;
+    }
+
+    private int manhattanDistance(FindPathState state) {
+        int x = state.getPosition() % 10;
+        int y = state.getPosition() / 10;
+        int destinationX = destination % 10;
+        int destinationY = destination / 10;
+        return Math.abs(x - destinationX) + Math.abs(y - destinationY);
     }
 
     @Override

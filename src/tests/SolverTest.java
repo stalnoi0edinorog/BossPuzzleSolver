@@ -195,7 +195,7 @@ class SolverTest {
         neighbors.clear();
     }
 
-    public int[] newCombination() {
+    int[] newCombination() {
         Random random = new Random();
         int[] numbers = new int[16];
 
@@ -207,15 +207,13 @@ class SolverTest {
             } while (numbers[a * 4 + b] != 0 || (a == 3 && b == 3));
             numbers[a * 4 + b] = j;
         }
-        //System.out.println(Arrays.toString(numbers));
-        if (rules15.isSolvable(numbers)) {
+        System.out.println(Arrays.toString(numbers));
+        if (!rules15.isSolvable(numbers)) {
             newCombination();
         }
         return numbers;
     }
 
-    //@Rule
-   // public Timeout timeout = Timeout.seconds(10000000);
 
     private int dipCounter = 0;
     private int successCounter = 0;
@@ -247,7 +245,7 @@ class SolverTest {
         assertEquals(startState, res.get(0));
         assertEquals(terminate, res.get(res.size() - 1));*/
 
-        int seconds = 10;
+        int seconds = 720;
         RunnableFuture<String> runnableFuture = new FutureTask<>(() -> {
             List<State> res;
             int[] field = newCombination();
@@ -265,15 +263,16 @@ class SolverTest {
         executorService.execute(runnableFuture);
 
         try {
-            String result = runnableFuture.get(seconds, TimeUnit.SECONDS);
-            assertNull(result);
+            runnableFuture.get(seconds, TimeUnit.SECONDS);
         } catch (TimeoutException ex) {
             runnableFuture.cancel(true);
             System.out.println("Failures: " + ++dipCounter);
             solveGame();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
+            solveGame();
         }
+        solveGame();
 
         /*int[] start3 = new int[]{15, 12, 5, 8, 1, 13, 14, 10, 4, 9, 7, 11, 3, 2, 6, 0}; //problems
         startState.setField(start3);
@@ -432,6 +431,24 @@ class SolverTest {
         }
         field[36] = -1;
         field[46] = -1;
+        start.setField(field);
+        res = alg.search(start);
+        assertEquals(99, ((FindPathState) res.get(0)).getPosition());
+
+        rules.setDestination(99);
+        start = new FindPathState(null, 10, 44);
+        field = new int[100];
+        for (int i = 1; i < 8; i++) {
+            field[20 + i] = -1;
+            field[80 + i] = -1;
+        }
+        x = 3;
+        y = 7;
+        while (x < 8 && y > 2) {
+            field[y * 10 + x] = -1;
+            x++;
+            y--;
+        }
         start.setField(field);
         res = alg.search(start);
         assertEquals(99, ((FindPathState) res.get(0)).getPosition());

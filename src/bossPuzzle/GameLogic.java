@@ -27,8 +27,8 @@ class GameLogic {
 
     private boolean isSolvable(int[] invariants) {
         int counter = 0;
-        for (int j = 0; j < 14; j++) {
-            for (int i = j + 1; i < 15; i++) {
+        for (int j = 0; j < 15; j++) {
+            for (int i = j + 1; i < 16; i++) {
                 if (invariants[j] > invariants[i])
                     counter++;
             }
